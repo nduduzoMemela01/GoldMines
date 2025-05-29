@@ -8,33 +8,37 @@ export class HomeScene extends Phaser.Scene {
         const gameHeight = this.sys.game.config.height;
 
         // Background
-        this.add.image(0, 0, 'bkgTexture').setOrigin(0);
+        this.add.image(0, 0, 'bkgTexture').setOrigin(0).setDisplaySize(gameWidth, gameHeight);
 
-        // UI Background Panel (semi-transparent black)
-        const panelWidth = gameWidth * 0.6;
-        const panelHeight = gameHeight * 0.5;
+        // Center panel with dark background
+        const panelWidth = gameWidth * 0.8;
+        const panelHeight = gameHeight * 0.3;
         const panelX = gameWidth / 2;
-        const panelY = gameHeight / 2 + 50; // Shifted down a bit
+        const panelY = gameHeight / 2;
 
         const graphics = this.add.graphics();
-        graphics.fillStyle(0x000000, 0.7); // Black with 70% opacity
-        graphics.fillRoundedRect(panelX - panelWidth / 2, panelY - panelHeight / 2, panelWidth, panelHeight, 20); // Rounded corners
+        graphics.fillStyle(0x232323, 0.9);
+        graphics.fillRoundedRect(panelX - panelWidth / 2, panelY - panelHeight / 2, panelWidth, panelHeight, 10);
 
-        // Safe Icon and Score
-        this.add.image(panelX, panelY - panelHeight / 2 - 100, 'safeIcon').setOrigin(0.5).setScale(0.8); // Adjust scale as needed
-        this.add.text(panelX + 100, panelY - panelHeight / 2 - 100, '2,136', {
-            fontFamily: 'KdamThmorPro', // Ensure this font is loaded
+        // Game Logo (Mining cart with gold)
+        const logoY = panelY - panelHeight - 100;
+        this.add.image(panelX, logoY, 'GameLogo').setOrigin(0.5);
+        
+        // Gold coin icon and score value (2,136)
+        const safeY = panelY - 150;
+        this.add.image(panelX - 20, safeY, 'safeIcon').setOrigin(0.5).setScale(0.6);
+        this.add.text(panelX + 70, safeY, '2,136', {
+            fontFamily: 'KdamThmorPro',
             fontSize: '48px',
             color: '#FFFFFF',
-            align: 'left'
-        }).setOrigin(0, 0.5);
+            align: 'center'
+        }).setOrigin(0.5);
 
-
-        // Play Button
-        const playButton = this.add.image(panelX, panelY - panelHeight / 4, 'textButtonBkg').setInteractive().setScale(1.2);
+        // Play Button (purple)
+        const playButton = this.add.image(panelX, panelY, 'textButtonBkg').setInteractive().setScale(1.2);
         this.add.text(playButton.x, playButton.y, 'PLAY', {
             fontFamily: 'KdamThmorPro',
-            fontSize: '32px',
+            fontSize: '36px',
             color: '#FFFFFF',
             align: 'center'
         }).setOrigin(0.5);
@@ -44,20 +48,19 @@ export class HomeScene extends Phaser.Scene {
             this.scene.start('GameScene');
         });
 
-        // Exit Button
-        const exitButton = this.add.image(panelX, panelY + panelHeight / 4, 'textButtonBkg').setInteractive().setScale(1.2);
+        // Exit Button (purple)
+        const exitButton = this.add.image(panelX, panelY + 80, 'textButtonBkg').setInteractive().setScale(1.2);
         this.add.text(exitButton.x, exitButton.y, 'EXIT', {
             fontFamily: 'KdamThmorPro',
-            fontSize: '32px',
+            fontSize: '36px',
             color: '#FFFFFF',
             align: 'center'
         }).setOrigin(0.5);
 
         exitButton.on('pointerdown', () => {
             this.sound.play('button_press');
-            // Handle exit logic if needed, e.g., close window for desktop app
-            // For web, it might just go to a blank page or do nothing.
-            console.log('Exit button clicked');
+            this.game.destroy(true);
+            window.close();
         });
     }
 }

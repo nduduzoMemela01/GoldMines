@@ -7,10 +7,10 @@ import { Preloader } from './scenes/Preloader.js';
 //  https://newdocs.phaser.io/docs/3.70.0/Phaser.Types.Core.GameConfig
 const config = {
     type: Phaser.AUTO,
-    width: 1024,
-    height: 768,
+    width: 540,  // Mobile portrait aspect ratio (9:16)
+    height: 960,
     parent: 'game-container',
-    backgroundColor: '#2d3436',
+    backgroundColor: '#342e1c',  // Dark gold/brown color as seen in screenshots
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH
