@@ -1,17 +1,17 @@
-export class GameOver extends Phaser.Scene {
+export class MainMenu extends Phaser.Scene {
   constructor() {
-    super("GameOver");
+    super("MainMenu");
   }
 
   create() {
-    this.cameras.main.setBackgroundColor(0xff0000);
+    this.add.image(512, 384, "background");
 
-    this.add.image(512, 384, "background").setAlpha(0.5);
+    this.add.image(512, 300, "logo");
 
     this.add
-      .text(512, 384, "Game Over", {
+      .text(512, 460, "Main Menu", {
         fontFamily: "Arial Black",
-        fontSize: 64,
+        fontSize: 38,
         color: "#ffffff",
         stroke: "#000000",
         strokeThickness: 8,
@@ -20,7 +20,7 @@ export class GameOver extends Phaser.Scene {
       .setOrigin(0.5);
 
     this.input.once("pointerdown", () => {
-      this.scene.start("MainMenu");
+      this.scene.start("Game");
     });
   }
 }

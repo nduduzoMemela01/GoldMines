@@ -1,26 +1,28 @@
-import { Boot } from './scenes/Boot.js';
-import { GameScene } from './scenes/Game.js';
-import { HomeScene } from './scenes/HomeScene.js';
-import { Preloader } from './scenes/Preloader.js';
+import { Boot } from "./scenes/Boot.js";
+import { Game as MainGame } from "./scenes/Game.js";
+import { GameOver } from "./scenes/GameOver.js";
+import { MainMenu } from "./scenes/MainMenu.js";
+import { Preloader } from "./scenes/Preloader.js";
 
 //  Find out more information about the Game Config at:
-//  https://newdocs.phaser.io/docs/3.70.0/Phaser.Types.Core.GameConfig
+//  https://docs.phaser.io/api-documentation/typedef/types-core#gameconfig
 const config = {
-    type: Phaser.AUTO,
-    width: 540,  // Mobile portrait aspect ratio (9:16)
-    height: 960,
-    parent: 'game-container',
-    backgroundColor: '#342e1c',  // Dark gold/brown color as seen in screenshots
-    scale: {
-        mode: Phaser.Scale.FIT,
-        autoCenter: Phaser.Scale.CENTER_BOTH
-    },
-    scene: [
-        Boot,
-        Preloader,
-        HomeScene,
-        GameScene
-    ]
+  type: Phaser.AUTO,
+  width: 1024,
+  height: 768,
+  parent: "game-container",
+  backgroundColor: "#028af8",
+  scale: {
+    mode: Phaser.Scale.FIT,
+    autoCenter: Phaser.Scale.CENTER_BOTH,
+  },
+  scene: [Boot, Preloader, MainMenu, MainGame, GameOver],
 };
 
-new Phaser.Game(config);
+const StartGame = (parent) => {
+  return new Phaser.Game({ ...config, parent });
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+  StartGame("game-container");
+});

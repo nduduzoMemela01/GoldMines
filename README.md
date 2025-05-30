@@ -1,2 +1,3 @@
-# goldmines
 # GoldMines
+
+![alt text](thumbnail.png)
