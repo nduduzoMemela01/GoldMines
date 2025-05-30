@@ -55,6 +55,7 @@ export class Preloader extends Phaser.Scene {
     this.load.image("clockIcon", "images/ClockIcon.png");
     this.load.image("textDisplayBkg", "images/TextDisplayBkg.png");
     this.load.image("largeInputTextBkg", "images/LargeInputTextBkg.png");
+    this.load.image("smallTextButton", "images/SmallTextButton.png");
     this.load.image("textInputBkg", "images/TextInputBkg.png");
     this.load.image(
       "uiBackgroundTexture",
