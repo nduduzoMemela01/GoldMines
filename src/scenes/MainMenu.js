@@ -7,6 +7,8 @@ export class MainMenu extends Phaser.Scene {
 
   create() {
     this.grid = new GridManager(this, 24, 12);
+    // this.grid.showGrid();
+
     // Add background
     const background = this.add.image(0, 0, "bkgTexture");
     this.grid.placeInArea(background, 0, 0, 23, 11);
@@ -18,47 +20,55 @@ export class MainMenu extends Phaser.Scene {
     );
     background.setScale(bgScale);
 
-    // Add logo
-    const logo = this.add.image(0, 0, "logo");
-    this.grid.placeAt(logo, 6, 6); // Place in upper third of screen
+    const safeIcon = this.add.image(0, 0, "safeIcon");
+    this.grid.placeAt(safeIcon, 6, 3);
 
-    // Add title text
-    const mainMenuText = this.add
-      .text(0, 0, "Main Menu", {
-        fontFamily: "Arial Black",
-        fontSize: 38,
+    const goldAmountInSafe = this.add
+      .text(0, 0, "2,136", {
+        fontFamily: "KdamThmorPro",
+        fontSize: 64,
         color: "#ffffff",
-        stroke: "#000000",
-        strokeThickness: 8,
-        align: "center",
       })
       .setOrigin(0.5);
 
-    this.grid.placeAt(mainMenuText, 12, 6); // Place in middle section
+    this.grid.placeAt(goldAmountInSafe, 6, 6);
 
-    // Add start button
-    const startButton = this.add.image(0, 0, "textButtonBkg");
-    this.grid.placeAt(startButton, 18, 6); // Place in lower third
+    const buttonPanelBkg = this.add.image(0, 0, "buttonPanelBkg");
+    this.grid.placeAt(buttonPanelBkg, 15, 6);
+
+    // Add PLAY button
+    const playButton = this.add.image(0, 0, "textButtonBkg");
+    this.grid.placeAt(playButton, 13, 6);
 
     const startText = this.add
-      .text(0, 0, "Start Game", {
-        fontFamily: "Arial Black",
-        fontSize: 24,
+      .text(0, 0, "PLAY", {
+        fontFamily: "KdamThmorPro",
+        fontSize: 32,
         color: "#ffffff",
         align: "center",
       })
       .setOrigin(0.5);
 
-    this.grid.placeAt(startText, 18, 6); // Place at same position as button
+    this.grid.placeAt(startText, 13, 6);
+
+    // Add EXIT button
+    const exitButton = this.add.image(0, 0, "textButtonBkg");
+    this.grid.placeAt(exitButton, 16, 6);
+
+    const exitText = this.add
+      .text(0, 0, "EXIT", {
+        fontFamily: "KdamThmorPro",
+        fontSize: 32,
+        color: "#ffffff",
+        align: "center",
+      })
+      .setOrigin(0.5);
+
+    this.grid.placeAt(exitText, 16, 6);
 
     // Make the button interactive
-    startButton.setInteractive();
-    startButton.on("pointerdown", () => {
-      this.scene.start("Game");
-    });
-
-    // Alternative: Keep the existing click anywhere functionality
-    this.input.once("pointerdown", () => {
+    playButton.setInteractive();
+    playButton.on("pointerdown", () => {
       this.scene.start("Game");
     });
   }

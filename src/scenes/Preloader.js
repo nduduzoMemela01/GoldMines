@@ -47,22 +47,9 @@ export class Preloader extends Phaser.Scene {
 
     this.load.image("logo", "logo.png");
 
-    // Load fonts - using CSS to preload web fonts properly
-    const fontStyles = `
-            @font-face {
-                font-family: 'KdamThmorPro';
-                src: url('assets/fonts/KdamThmorPro-Regular.ttf') format('truetype');
-                font-weight: normal;
-                font-style: normal;
-            }
-        `;
-
-    const element = document.createElement("style");
-    element.innerHTML = fontStyles;
-    document.head.appendChild(element);
-
     // UI & General Images
     this.load.image("bkgTexture", "images/BkgTexture.png");
+    this.load.image("buttonPanelBkg", "images/ButtonPanelBkg.png");
     this.load.image("textButtonBkg", "images/TextButtonBkg.png");
     this.load.image("backButtonLeft", "images/BackButtonLeft.png");
     this.load.image("clockIcon", "images/ClockIcon.png");
@@ -103,6 +90,7 @@ export class Preloader extends Phaser.Scene {
 
   create() {
     //  Move to the MainMenu.
-    this.scene.start("MainMenu");
+    // this.scene.start("MainMenu");
+    this.scene.start("Game");
   }
 }
