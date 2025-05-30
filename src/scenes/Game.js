@@ -161,12 +161,12 @@ export class Game extends Phaser.Scene {
         const mineCell = this.add
           .image(0, 0, "gridCellHidden")
           .setInteractive();
-        this.grid.placeAt(mineCell, 5 + col * 3, 2.5 + row * 2);
+        this.grid.placeAt(mineCell, 5 + col * 3, 3 + row * 2);
 
         mineCell.cellData = {
           row,
           col,
-          type: this.gameBoard[row][col], // 'gold' or 'coal'
+          type: this.gameBoard[row][col],
           revealed: false,
           selected: false,
         };
@@ -213,22 +213,22 @@ export class Game extends Phaser.Scene {
 
   createBettingInterface() {
     // Create a panel background
-    // const panelBkg = this.add.image(0, 0, "buttonPanelBkg");
-    // this.grid.placeInArea(panelBkg, 17, 1, 22, 9);
+    const panelBkg = this.add.image(0, 0, "buttonPanelBkg");
+    this.grid.placeInArea(panelBkg, 17, 3, 22, 9);
 
     // Bet Amount label
     const betAmountLabel = this.add
       .text(0, 0, "Bet Amount", {
         fontFamily: "KdamThmorPro",
-        fontSize: 24,
+        fontSize: 32,
         color: "#ffffff",
       })
       .setOrigin(0.5);
-    this.grid.placeAt(betAmountLabel, 17, 2);
+    this.grid.placeAt(betAmountLabel, 17, 4);
 
     // Create bet amount input field
     const betInputField = this.add.image(0, 0, "largeInputTextBkg");
-    this.grid.placeAt(betInputField, 18.5, 3);
+    this.grid.placeAt(betInputField, 18, 5);
 
     // Create bet amount input text
     this.betAmountText = this.add
@@ -238,11 +238,11 @@ export class Game extends Phaser.Scene {
         color: "#ffffff",
       })
       .setOrigin(0.5);
-    this.grid.placeAt(this.betAmountText, 18.5, 3);
+    this.grid.placeAt(this.betAmountText, 18, 4);
 
     // Create bet multiplier buttons
-    const divideButton = this.createTextButton("x½", 17, 4);
-    const multiplyButton = this.createTextButton("x2", 20, 4);
+    const divideButton = this.createTextButton("x½", 17.9, 8);
+    const multiplyButton = this.createTextButton("x2", 17.9, 9);
 
     divideButton.on("pointerdown", () => {
       this.sounds.buttonPress.play();
@@ -264,12 +264,12 @@ export class Game extends Phaser.Scene {
       .setOrigin(0.5);
     this.grid.placeAt(
       this.add.displayList.list[this.add.displayList.list.length - 1],
-      18,
-      6
+      19,
+      3
     );
 
     const coalsInput = this.add.image(0, 0, "textInputBkg");
-    this.grid.placeAt(coalsInput, 18, 7);
+    this.grid.placeAt(coalsInput, 20, 4.25);
 
     this.coalsText = this.add
       .text(0, 0, this.gameState.coals.toString(), {
@@ -278,7 +278,7 @@ export class Game extends Phaser.Scene {
         color: "#ffffff",
       })
       .setOrigin(0.5);
-    this.grid.placeAt(this.coalsText, 18, 7);
+    this.grid.placeAt(this.coalsText, 20, 4);
 
     this.add
       .text(0, 0, "Stakes", {
@@ -289,12 +289,12 @@ export class Game extends Phaser.Scene {
       .setOrigin(0.5);
     this.grid.placeAt(
       this.add.displayList.list[this.add.displayList.list.length - 1],
-      18,
-      9
+      19,
+      7
     );
 
-    const stakesInput = this.add.image(0, 0, "textInputBkg");
-    this.grid.placeAt(stakesInput, 18, 10);
+    const stakesInput = this.add.image(0, 0, "textDisplayBkg");
+    this.grid.placeAt(stakesInput, 20, 8);
 
     this.stakesText = this.add
       .text(0, 0, this.gameState.stakes.toString(), {
@@ -303,11 +303,11 @@ export class Game extends Phaser.Scene {
         color: "#ffffff",
       })
       .setOrigin(0.5);
-    this.grid.placeAt(this.stakesText, 18, 10);
+    this.grid.placeAt(this.stakesText, 20, 8);
 
     // Create the BET button
     const betButton = this.add.image(0, 0, "textButtonBkg").setInteractive();
-    this.grid.placeAt(betButton, 19.5, 8.5);
+    this.grid.placeAt(betButton, 22, 6);
 
     const betText = this.add
       .text(0, 0, "BET", {
@@ -316,7 +316,7 @@ export class Game extends Phaser.Scene {
         color: "#ffffff",
       })
       .setOrigin(0.5);
-    this.grid.placeAt(betText, 19.5, 8.5);
+    this.grid.placeAt(betText, 22, 6);
 
     betButton.on("pointerdown", () => {
       this.sounds.buttonPress.play();
@@ -325,7 +325,7 @@ export class Game extends Phaser.Scene {
   }
 
   createTextButton(text, row, col) {
-    const button = this.add.image(0, 0, "textDisplayBkg").setInteractive();
+    const button = this.add.image(0, 0, "smallTextButton").setInteractive();
     this.grid.placeAt(button, row, col);
 
     const buttonText = this.add
