@@ -1,48 +1,43 @@
+import GridManager from "../utils/GridManager";
+
 export class Preloader extends Phaser.Scene {
   constructor() {
     super("Preloader");
   }
 
   init() {
+    this.grid = new GridManager(this, 24, 12);
+
     // Background for the loading screen
     this.cameras.main.setBackgroundColor(0x000000);
 
-    const gameWidth = this.sys.game.config.width;
-    const gameHeight = this.sys.game.config.height; // Display Game Logo - Mining cart with gold and pickaxe
-    this.add
-      .image(gameWidth / 2, gameHeight / 2 - 100, "GameLogo")
-      .setOrigin(0.5);
+    // Display Game Logo - Mining cart with gold and pickaxe
+    const logo = this.add.image(0, 0, "GameLogo").setOrigin(0.5);
+    this.grid.placeAt(logo, 8, 6); // Place in the upper section of the screen
 
     // Progress bar background
-    this.add
-      .image(gameWidth / 2, gameHeight / 2 + 100, "LoadingBarBkg")
-      .setOrigin(0.5);
+    const barBkg = this.add.image(0, 0, "LoadingBarBkg").setOrigin(0.5);
+    this.grid.placeAt(barBkg, 16, 6); // Place in the middle section
 
-    // Progress bar fill (purple)
-    const bar = this.add
-      .image(gameWidth / 2, gameHeight / 2 + 100, "LoadingBar10ptFill")
-      .setOrigin(0.5);
-    const barMask = this.make.graphics();
-    barMask.fillStyle(0xffffff);
-    barMask.beginPath();
-    barMask.fillRect(
-      bar.x - bar.width / 2,
-      bar.y - bar.height / 2,
-      0,
-      bar.height
-    ); // Start with 0 width
-    bar.setMask(barMask.createGeometryMask());
+    // Progress bar fill - we'll adjust its width based on progress
+    const bar = this.add.image(0, 0, "LoadingBar10ptFill").setOrigin(0);
 
-    //  Use the 'progress' event emitted by the LoaderPlugin to update the loading bar
+    // Get the position for our loading bar
+    const barPosition = this.grid.getPosition(16, 6);
+
+    // Position the fill bar at the left edge of the background
+    bar.setPosition(
+      barPosition.x - barBkg.width / 2,
+      barPosition.y - bar.height / 2
+    );
+
+    // Initially set the fill to zero width
+    bar.scaleX = 0;
+
+    // Use the 'progress' event emitted by the LoaderPlugin to update the loading bar
     this.load.on("progress", (progress) => {
-      barMask.clear();
-      barMask.fillStyle(0xffffff);
-      barMask.fillRect(
-        bar.x - bar.width / 2,
-        bar.y - bar.height / 2,
-        bar.width * progress,
-        bar.height
-      );
+      // Scale the fill bar from 0 to full width based on loading progress
+      bar.scaleX = progress;
     });
   }
 
@@ -67,6 +62,7 @@ export class Preloader extends Phaser.Scene {
     document.head.appendChild(element);
 
     // UI & General Images
+    this.load.image("bkgTexture", "images/BkgTexture.png");
     this.load.image("textButtonBkg", "images/TextButtonBkg.png");
     this.load.image("backButtonLeft", "images/BackButtonLeft.png");
     this.load.image("clockIcon", "images/ClockIcon.png");
