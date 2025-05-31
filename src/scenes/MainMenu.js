@@ -1,4 +1,16 @@
 import GridManager from "../utils/GridManager.js";
+class SoundManager {
+  constructor(scene) {
+    this.scene = scene;
+    this.sounds = {
+      buttonPress: scene.sound.add("button_press"),
+    };
+  }
+
+  playButtonPress() {
+    this.sounds.buttonPress.play();
+  }
+}
 
 export class MainMenu extends Phaser.Scene {
   constructor() {
@@ -8,6 +20,8 @@ export class MainMenu extends Phaser.Scene {
   create() {
     this.grid = new GridManager(this, 24, 12);
     // this.grid.showGrid();
+    
+    this.soundManager = new SoundManager(this);
 
     // Add background
     const background = this.add.image(0, 0, "bkgTexture");
@@ -69,6 +83,7 @@ export class MainMenu extends Phaser.Scene {
     // Make the button interactive
     playButton.setInteractive();
     playButton.on("pointerdown", () => {
+      this.soundManager.playButtonPress();
       this.scene.start("Game");
     });
   }

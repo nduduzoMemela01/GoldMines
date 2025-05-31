@@ -648,6 +648,7 @@ export class Game extends Phaser.Scene {
     }
 
     this.gameBoard.toggleCellSelection(cell, isSelected);
+    this.soundManager.playButtonPress();
   }
 
   showSelectionLimitReached() {

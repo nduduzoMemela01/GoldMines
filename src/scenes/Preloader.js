@@ -92,8 +92,8 @@ export class Preloader extends Phaser.Scene {
   create() {
     this.checkFontLoaded(() => {
       //  Move to the MainMenu.
-      // this.scene.start("MainMenu");
-      this.scene.start("GameOver");
+      this.scene.start("MainMenu");
+      // this.scene.start("GameOver");
     });
   }
   
