@@ -1,4 +1,4 @@
-import GridManager from "../utils/GridManager";
+import GridManager from "../utils/GridManager.js";
 
 export class MainMenu extends Phaser.Scene {
   constructor() {

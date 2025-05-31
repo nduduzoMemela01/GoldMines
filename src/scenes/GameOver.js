@@ -1,4 +1,16 @@
-import GridManager from "../utils/GridManager";
+import GridManager from "../utils/GridManager.js";
+class SoundManager {
+  constructor(scene) {
+    this.scene = scene;
+    this.sounds = {
+      buttonPress: scene.sound.add("button_press"),
+    };
+  }
+
+  playButtonPress() {
+    this.sounds.buttonPress.play();
+  }
+}
 
 export class GameOver extends Phaser.Scene {
   constructor() {
@@ -6,12 +18,12 @@ export class GameOver extends Phaser.Scene {
   }
 
   create() {
+    this.soundManager = new SoundManager(this);
     this.grid = new GridManager(this, 24, 12);
     this.cameras.main.setBackgroundColor(0xff0000);
 
-    // Add background with grid positioning
-    const background = this.add.image(0, 0, "background").setAlpha(0.5);
-    this.grid.placeInArea(background, 0, 0, 23, 11); // Cover the entire grid area
+    const background = this.add.image(0, 0, "bkgTexture");
+    this.grid.placeInArea(background, 0, 0, 23, 11);
 
     // Adjust scale to fill screen if needed
     const bgScale = Math.max(
@@ -23,39 +35,23 @@ export class GameOver extends Phaser.Scene {
     // Game over text
     const gameOverText = this.add
       .text(0, 0, "Game Over", {
-        fontFamily: "Arial Black",
+        fontFamily: "KdamThmorPro",
         fontSize: 64,
-        color: "#ffffff",
-        stroke: "#000000",
-        strokeThickness: 8,
         align: "center",
+        color: "#ffffff",
       })
       .setOrigin(0.5);
 
     this.grid.placeAt(gameOverText, 8, 6); // Place in upper section
-
-    // Score display (in a real game, you'd get the actual score)
-    const scoreText = this.add
-      .text(0, 0, "Score: 0", {
-        fontFamily: "Arial Black",
-        fontSize: 36,
-        color: "#ffffff",
-        stroke: "#000000",
-        strokeThickness: 6,
-        align: "center",
-      })
-      .setOrigin(0.5);
-
-    this.grid.placeAt(scoreText, 12, 6); // Place in middle section
 
     // Replay button
     const replayButton = this.add.image(0, 0, "textButtonBkg");
     this.grid.placeAt(replayButton, 18, 6); // Place in lower section
 
     const replayText = this.add
-      .text(0, 0, "Play Again", {
-        fontFamily: "Arial Black",
-        fontSize: 24,
+      .text(0, 0, "Go Home", {
+        fontFamily: "KdamThmorPro",
+        fontSize: 32,
         color: "#ffffff",
         align: "center",
       })
@@ -67,11 +63,7 @@ export class GameOver extends Phaser.Scene {
     replayButton.setInteractive();
     replayButton.on("pointerdown", () => {
       this.scene.start("MainMenu");
-    });
-
-    // Alternative: Keep the existing click anywhere functionality
-    this.input.once("pointerdown", () => {
-      this.scene.start("MainMenu");
+      this.soundManager.playButtonPress();
     });
   }
 }

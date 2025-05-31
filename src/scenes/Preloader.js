@@ -1,4 +1,4 @@
-import GridManager from "../utils/GridManager";
+import GridManager from "../utils/GridManager.js";
 
 export class Preloader extends Phaser.Scene {
   constructor() {
@@ -90,8 +90,45 @@ export class Preloader extends Phaser.Scene {
   }
 
   create() {
-    //  Move to the MainMenu.
-    // this.scene.start("MainMenu");
-    this.scene.start("Game");
+    this.checkFontLoaded(() => {
+      //  Move to the MainMenu.
+      // this.scene.start("MainMenu");
+      this.scene.start("GameOver");
+    });
+  }
+  
+  checkFontLoaded(callback) {
+    // Create a test element using the KdamThmorPro font
+    const testText = this.add.text(0, 0, "Font Test", { 
+      fontFamily: 'KdamThmorPro',
+      fontSize: 24,
+      color: '#ffffff' 
+    });
+    testText.visible = false;
+    
+    // Use the Phaser timer to check periodically if the font is loaded
+    let attempts = 0;
+    const maxAttempts = 20; // Prevent infinite loop
+    
+    const checkFont = () => {
+      attempts++;
+      
+      // Check if the font has been applied (this is a basic check)
+      if (document.fonts && document.fonts.check('24px KdamThmorPro')) {
+        console.log('KdamThmorPro font loaded!');
+        if (callback) callback();
+        return;
+      } else if (attempts >= maxAttempts) {
+        console.warn('Maximum attempts reached. Proceeding even if font not loaded.');
+        if (callback) callback();
+        return;
+      }
+      
+      // Check again after a short delay
+      this.time.delayedCall(100, checkFont);
+    };
+    
+    // Start checking
+    checkFont();
   }
 }
